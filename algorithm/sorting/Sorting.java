@@ -272,6 +272,27 @@ public class Sorting {
 	* @param A the array to be sorted
 	*/
 	public static void countingsort(int A[]) {
+		int max = A[0]; int min = A[0];
+		for(int i = 1; i<A.length; i++){
+			if(A[i]>max)
+				max = A[i];
+			if (A[i]<min)
+				min = A[i];
+		}
+		int[] B = new int[max-min+1];
+		for(int i = 0; i<B.length; i++)
+			B[i] = 0;
+		for(int i = 0; i<A.length; i++)
+			B[A[i]-min]++;
+
+		int j = 0;
+		for(int i = 0; i<B.length; i++){
+			while(B[i]>0){
+				A[j] = i+min;
+				B[i]--;
+				j++;
+			}
+		}
 	}
 
 	/**
@@ -367,16 +388,23 @@ public class Sorting {
 	}
 
 	public static void main(String[] args){
-		Integer[] A = new Integer[500000];
+		int[] A = new int[5000];
 		Random rand = new Random();
 
 		for (int i = 0; i < A.length; i++) {
-			A[i] = rand.nextInt(5000); // Fills with any int value
+			A[i] = rand.nextInt(50000); // Fills with any int value
 		}
-
 		System.out.println("Sorting now...");
-		Sorting.selectionsort(A);
-		System.out.println("Sorted.");
+		Sorting.countingsort(A);
+		boolean sorted = true;
+		for(int i = 0; i<A.length-1; i++){
+			if(A[i+1]<A[i])
+				sorted = false;
+		}
+		if (sorted)
+			System.out.println("Sorted");
+		else
+			System.out.println("Unsorted");
 	}
 }
 
