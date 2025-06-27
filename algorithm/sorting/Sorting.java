@@ -218,10 +218,13 @@ public class Sorting {
 	}
 
 	private static <T extends Comparable<T>> int partition(T A[], int p, int r){
-		T pivot = A[r]; // deterministic, TODO random
+		Random random = new Random();
+		int pivot = random.nextInt(r-p)+p;
+		swap(A, r, pivot);
+
 		int i = p;
 		for(int j = p; j<r; j++){
-			if (A[j].compareTo(pivot)<0){
+			if (A[j].compareTo(A[r])<0){
 				swap(A, j, i);
 				i++;
 			}
@@ -250,15 +253,18 @@ public class Sorting {
 		}
 	}
 	private static int partition(int A[], int p, int r) {
-		int pivot = A[r]; //deterministic, TODO random
+		Random random = new Random();
+		int pivot = random.nextInt(r-p)+p;
+		swap(A, r, pivot);
+
 		int i = p;
 		for (int j = p; j < r; j++) {
-			if (A[j] < pivot) {
+			if (A[j] < A[r]) { // A[r] has the pivot
 				swap(A, j, i);
 				i++;
 			}
 		}
-		swap(A, r, i);
+		swap(A, r, i); //A[r] has the pivot
 		return i;
 	}
 
@@ -388,19 +394,25 @@ public class Sorting {
 	}
 
 	public static void main(String[] args){
-		int[] A = new int[5000];
-		Random rand = new Random();
+		// int[] A = new int[5000];
+		// Random rand = new Random();
 
-		for (int i = 0; i < A.length; i++) {
-			A[i] = rand.nextInt(50000); // Fills with any int value
-		}
+		// for (int i = 0; i < A.length; i++) {
+		// 	A[i] = rand.nextInt(5000); // Fills with any int value
+		// }
+		int[] A = {12,32,4,3,1,4,5,6,99};
 		System.out.println("Sorting now...");
-		Sorting.countingsort(A);
+		Sorting.quicksort(A);
 		boolean sorted = true;
 		for(int i = 0; i<A.length-1; i++){
 			if(A[i+1]<A[i])
 				sorted = false;
 		}
+
+		for(int i = 0; i<A.length; i++)
+			System.out.print(A[i]+", ");
+		System.out.println();
+
 		if (sorted)
 			System.out.println("Sorted");
 		else
