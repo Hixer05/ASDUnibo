@@ -16,6 +16,19 @@ public class Sorting {
 	* @param <T> class of the object in the array
 	*/
 	public static <T extends Comparable<T>> void selectionsort(T A[]) {
+		// T n = A[A.length-1];
+		for(int i = 0; i < A.length; i++){
+			int min = i;
+			for (int j = i; j<A.length; j++){
+				if(A[j].compareTo(A[min]) < 0)
+					min = j;
+			}
+			if (A[min].compareTo(A[i])!=0) {
+				T tmp = A[i];
+				A[i] = A[min];
+				A[min] = tmp;
+			}
+		}
 	}
 
 	/**
@@ -28,6 +41,7 @@ public class Sorting {
 	* @param A the array to be sorted
 	*/
 	public static void selectionsort(int A[]) {
+		selectionsort(A);
 	}
 
 	/**
@@ -42,6 +56,17 @@ public class Sorting {
 	* @param <T> class of the object in the array
 	*/
 	public static <T extends Comparable<T>> void insertionsort(T A[]) {
+		for(int i = 0; i<A.length; i++){
+			for (int j = i; j>0; j--){
+				if(A[j].compareTo(A[j-1])<0){
+					T tmp = A[j];
+					A[j] = A[j-1];
+					A[j-1] = tmp;
+				}else{
+					break;
+				}
+			}
+		}
 	}
 
 	/**
@@ -55,6 +80,7 @@ public class Sorting {
 	* @param A the array to be sorted
 	*/
 	public static void insertionsort(int A[]) {
+		//insertionSort(A);
 	}
 
 	/**
@@ -68,6 +94,46 @@ public class Sorting {
 	* @param <T> class of the object in the array
 	*/
 	public static <T extends Comparable<T>> void mergesort(T A[]) {
+		mergesort(A, 0, A.length-1);
+	}
+	private static <T extends Comparable<T>> void mergesort(T A[], int p, int r){
+		if (p<r){
+			int q = (int) Math.floor(p+((r-p)/2)); //equiv to (p+r)/2
+			mergesort(A, p, q);
+			mergesort(A, q+1, r);
+			merge(A,p, q,r);
+		}
+	}
+
+	private static <T extends Comparable<T>> void merge(T A[], int p, int q, int r) {
+		int i = p;
+		int j = q+1;
+		T[] B = (T[]) new Object[r-p];
+		for (int t=0; t<r-p; t++){
+			B[t] = A[p+t];
+		}
+
+		int k = 0;
+		while(i<q && j<r){
+			if (A[i].compareTo(A[j])<0){
+				B[k] = A[i];
+				i++;
+			}
+			else{
+				B[k] = A[j];
+				j++;
+			}
+			k++;
+		}
+		while(i<q)
+			B[k++] = A[i++];
+
+		while(j<r)
+			B[k++] = A[j++];
+
+		for(int t = 0; t<r-p; t++){
+			A[p+t] = B[t];
+		}
 	}
 
 	/**
@@ -94,8 +160,29 @@ public class Sorting {
 	* @param <T> class of the object in the array
 	*/
 	public static <T extends Comparable<T>> void quicksort(T A[]) {
+		quicksort(A, 0, A.length-1);
 	}
 
+	public static <T extends Comparable<T>> void quicksort(T A[], int p, int r) {
+		if (p<r){
+			int q = partition(A, p, r);
+			quicksort(A, p, q-1);
+			quicksort(A, q+1, r);
+		}
+	}
+
+	private static <T extends Comparable<T>> int partition(T A[], int p, int r){
+		T pivot = A[r]; // deterministic, TODO random
+		int i = p;
+		for(int j = p; j<r; j++){
+			if (A[j].compareTo(pivot)<0){
+				swap(A, j, i);
+				i++;
+			}
+		}
+		swap(A,r, i);
+		return i;
+	}
 	/**
 	* Sorts the specified array into ascending numerical order in O(n<sup>2</sup>) and O(nlogn) on the average
 	* <p>
@@ -206,5 +293,13 @@ public class Sorting {
 		A[i] = A[j];
 		A[j] = tmp;
 	}	
-            
+
+	public static void main(String[] args){
+		Integer[] A = {1,4,2,5,6,7};
+		Sorting.selectionsort(A);
+		for(int i = 0; i < A.length; i++)
+			System.out.print(A[i]);
+		System.out.println();
+	}
 }
+
