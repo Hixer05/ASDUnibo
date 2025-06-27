@@ -84,6 +84,15 @@ public class DoubleEndedList<D> implements List<D>,Stack<D>,Queue<D>,Iterable<D>
      *  @param data data to insert in the List
      */ 
     public void insert(D data) {
+        Node<D> tmp = new Node<D>(data);
+        if(this.head == null){
+            this.head = tmp;
+            this.tail = tmp;
+        }else{
+            tmp.next = this.head;
+            this.head = tmp;
+        }
+        size++;
     }
 
     /**
@@ -91,6 +100,15 @@ public class DoubleEndedList<D> implements List<D>,Stack<D>,Queue<D>,Iterable<D>
      *  @param data data to insert in the List
      */
     public void append(D data) {
+        Node<D> tmp = new Node<D>(data);
+        if(this.head == null){
+            this.head = tmp;
+            this.tail = tmp;
+        }else{
+            this.tail.next = tmp;
+            this.tail = tmp;
+        }
+        size++;
     }
 
     /**
@@ -105,6 +123,13 @@ public class DoubleEndedList<D> implements List<D>,Stack<D>,Queue<D>,Iterable<D>
      *  @return true if the list contains parameter data
      */
     public boolean search(D data) {
+        Node<D> tmp = this.head;
+        while(tmp!=null){
+            if (tmp.data == data){
+                return true;
+            }
+            tmp = tmp.next;
+        }
         return false;
     }
 
@@ -122,7 +147,14 @@ public class DoubleEndedList<D> implements List<D>,Stack<D>,Queue<D>,Iterable<D>
      *  @throws IndexOutOfBoundsException if the index is out of range
      */
     public D get(int i) throws IndexOutOfBoundsException {
-        return null;
+       if (i < 0 || i > this.size )
+           throw new IndexOutOfBoundsException();
+       Node<D> tmp = this.head;
+       while(i>0){
+           tmp = tmp.next;
+           i--;
+       }
+       return tmp.data;
     }
 
 
@@ -141,7 +173,16 @@ public class DoubleEndedList<D> implements List<D>,Stack<D>,Queue<D>,Iterable<D>
      *  @throws IndexOutOfBoundsException if the index is out of range
      */
     public D set(int i, D data) throws IndexOutOfBoundsException {
-        return null;
+        if (i<0 || i > this.size)
+            throw new IndexOutOfBoundsException();
+        Node<D> tmp = this.head;
+        while (i>0){
+            tmp = tmp.next;
+            i--;
+        }
+        D olddata = tmp.data;
+        tmp.data = data;
+        return olddata;
     }
  
     /**
@@ -156,6 +197,27 @@ public class DoubleEndedList<D> implements List<D>,Stack<D>,Queue<D>,Iterable<D>
      *  @return true if data is in the list and it has been removed
      */
     public boolean delete(D data) {
+        Node<D> prev = null;
+        Node<D> curr = this.head;
+
+        while (curr != null && data != curr.data){
+            prev = curr;
+            curr = curr.next;
+        }
+
+        if(curr!=null){
+            if(curr == this.head)
+                this.head = curr.next;
+            else
+                prev.next = curr.next;
+
+            if(curr == this.tail){
+                this.tail = prev;
+            }
+            this.size--;
+            return true;
+        }
+
         return false;
     }
 
@@ -169,6 +231,7 @@ public class DoubleEndedList<D> implements List<D>,Stack<D>,Queue<D>,Iterable<D>
      *  @param data the data to insert in the stack
      */
     public void push(D data) {
+        insert(data);
     }
     
     /**
@@ -177,7 +240,11 @@ public class DoubleEndedList<D> implements List<D>,Stack<D>,Queue<D>,Iterable<D>
      * @throws NoSuchElementException if the stack is empty
      */
     public D pop() throws NoSuchElementException {
-        return null;
+        if(this.head==null)
+            throw new NoSuchElementException();
+        D d = this.get(0);
+        this.delete(d);
+        return d;
     }
 
     /**
@@ -186,7 +253,9 @@ public class DoubleEndedList<D> implements List<D>,Stack<D>,Queue<D>,Iterable<D>
      *  @throws NoSuchElementException if the stack is empty
      */
     public D top() throws NoSuchElementException {
-        return null;
+        if(this.head == null)
+            throw new NoSuchElementException();
+        return this.head.data;
     }
     
 /* *************************************************** *
@@ -198,6 +267,7 @@ public class DoubleEndedList<D> implements List<D>,Stack<D>,Queue<D>,Iterable<D>
      *  @param data the data to insert
      */
     public void enqueue(D data) {
+        append(data);
     }
 
     /** 
@@ -206,7 +276,7 @@ public class DoubleEndedList<D> implements List<D>,Stack<D>,Queue<D>,Iterable<D>
      * @throws NoSuchElementException if the queue is empty
      */
     public D dequeue() throws NoSuchElementException {
-        return null;
+        return this.pop();
     }
 
     /**
@@ -215,7 +285,9 @@ public class DoubleEndedList<D> implements List<D>,Stack<D>,Queue<D>,Iterable<D>
      *  @throws NoSuchElementException if the queue is empty
      */
     public D first() throws NoSuchElementException {
-        return null;
+        if(this.head == null)
+            throw new NoSuchElementException();
+        return this.head.data;
     }
 
 
