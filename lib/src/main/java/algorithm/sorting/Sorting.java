@@ -1,4 +1,6 @@
 package algorithm.sorting;
+import java.lang.reflect.Array;
+import java.util.Random;
 
 /**
 * This class contains various sorting algorithms
@@ -120,8 +122,10 @@ public class Sorting {
 	private static <T extends Comparable<T>> void merge(T A[], int p, int q, int r) {
 		int i = p;
 		int j = q+1;
-		T[] B = A.clone();
-		int k = p;
+		@SuppressWarnings("unchecked")
+		T[] B = (T[]) Array.newInstance(A.getClass().getComponentType(), r-p+1);
+
+		int k = 0;
 		while(i<=q && j<=r){
 			if (A[i].compareTo(A[j])<0){
 				B[k] = A[i];
@@ -140,7 +144,7 @@ public class Sorting {
 			B[k++] = A[j++];
 
 		for(int t = p; t<=r; t++){
-			A[t] = B[t];
+			A[t] = B[t-p];
 		}
 	}
 
@@ -167,8 +171,8 @@ public class Sorting {
 	private static void merge(int A[], int p, int q, int r) {
 		int i = p;
 		int j = q+1;
-		int[] B = A.clone();
-		int k = p;
+		int[] B = new int[(r-p)+1];
+		int k = 0;
 		while(i<=q && j<=r){
 			if (A[i]<A[j]){
 				B[k] = A[i];
@@ -186,8 +190,8 @@ public class Sorting {
 		while(j<=r)
 			B[k++] = A[j++];
 
-		for(int t = p; t<=p; t++){
-			A[t] = B[t];
+		for(int t = p; t<=r; t++){
+			A[t] = B[t-p];
 		}
 	}
 	/**
@@ -269,13 +273,13 @@ public class Sorting {
 	*/
 	public static void countingsort(int A[]) {
 	}
-	
+
 	/**
 	* Sorts the specified array according to the ordering induced by the compareTo() method in O(n log n)
 	* using the heapsort algorithm.
 	* <ul>
 	* <li> Worst-case: &Theta;(n log n)
-	* <li> Best-case: &Theta;(n)		
+	* <li> Best-case: &Theta;(n)
 	* </ul>
 	* @param A the array to be sorted
 	* @param <T> class of the object in the array
@@ -288,36 +292,36 @@ public class Sorting {
 			A[c] = k;
 		}
 	}
-	
+
 	/**
 	* Transforms the array A with n elements in an arrayheap.
 	* It proceeds recursively by fist creating sub arrayheaps rooted at index i
-	*/	
+	*/
 	private static <T extends Comparable<T>> void heapify(T A[], int n, int i) {
 		if (i >= n) return;
 		heapify(A, n, left(i));
 		heapify(A, n, right(i));
 		fixheap(A, n, i);
 	}
-	
+
 	/**
 	* Returns the index of the left son
-	*/	
+	*/
 	private static int left(int i) {
 		return ( 2*i + 1 );
 	}
 
 	/**
 	* Returns the index of the right son
-	*/	
+	*/
 	private static int right(int i) {
 		return ( 2*i + 2 );
 	}
-		
+
 	/**
-	* Fix the sub arrayheap rooted at position i of a the arrayheap A of length c, 
+	* Fix the sub arrayheap rooted at position i of a the arrayheap A of length c,
 	* assuming only the root can be ill-placed
-	*/		
+	*/
 	private static <T extends Comparable<T>> void fixheap(T A[], int c, int i) {
 		int l = left(i), r = right(i);
 		if (l > c) return;
@@ -329,32 +333,32 @@ public class Sorting {
 			fixheap(A, c, max);
 		}
 	}
-	
+
 	/**
 	* Returns the maximal element from an arrayheap A
-	*/	
+	*/
 	private static <T> T findmax(T A[]) {
 		return A[0];
 	}
 
 	/**
 	* Removes the maximal element in an arrayheap A of length c
-	*/		
+	*/
 	private static <T extends Comparable<T>> void deletemax(T A[], int c) {
 		if (c <= 0) return;
 		A[0] = A[c];
 		c--;
 		fixheap(A, c, 0);
-	}	
+	}
 
 	/**
 	* Swaps the two elements in positions i and j in the array A
-	*/		
+	*/
 	private static <T> void swap(T A[], int i, int j) {
 		T tmp = A[i];
 		A[i] = A[j];
 		A[j] = tmp;
-	}	
+	}
 
 	private static <T> void swap(int A[], int i, int j) {
 		int tmp = A[i];
@@ -363,11 +367,18 @@ public class Sorting {
 	}
 
 	public static void main(String[] args){
-		int[] A = {1,4,2,5,6,7,2,3,2,1,3,100,3,2,12,4,1,2,3,19,99};
-		Sorting.mergesort(A);
-		for(int i = 0; i < A.length; i++)
-			System.out.print(A[i]+", ");
-		System.out.println();
+		Integer[] A = new Integer[5000];
+		Random rand = new Random();
+
+		for (int i = 0; i < A.length; i++) {
+			A[i] = rand.nextInt(5000); // Fills with any int value
+		}
+
+		System.out.println("Sorting now...");
+
+		Sorting.selectionsort(A);
+
+		System.out.println(A[0] +",... ,"+ A[2000]+ ", ..., "+A[4999] + ".   Sorted.");
 	}
 }
 
