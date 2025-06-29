@@ -103,7 +103,7 @@ public class GraphAL<D> implements Graph<D> {
 	 * <code>x</code> and <code>y</code> are not connected)
 	 */	
 	public Edge<D> areAdjacent(Vertex<D> x, Vertex<D> y) {
-		i =
+		//i =
 
 		return null;
 	}
