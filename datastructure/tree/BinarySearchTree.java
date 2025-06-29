@@ -16,7 +16,7 @@ public class BinarySearchTree<K extends Comparable<K>,D> extends BinaryTree<K,D>
     public BinarySearchTree() {
         root = null;
         size = 0;
-    }   
+    }
 
     /**
      * Inserts a node storing the mapping (<code>key</code>,<code>data</code>) into the Binary Search Tree; Cost: O(h)
@@ -46,6 +46,24 @@ public class BinarySearchTree<K extends Comparable<K>,D> extends BinaryTree<K,D>
      * @param node node to insert into the tree
      */
     protected void insertNode(BTNode node) {
+        BTNode prev = null;
+        BTNode curr = this.root;
+
+        while(curr!=null){
+            prev = curr;
+            if (node.key.compareTo(curr.key)<0)
+                curr = curr.left;
+            else curr = curr.right;
+        }
+        if (prev == null)
+            this.root = node;
+        else {
+            node.parent = prev;
+            if (node.key.compareTo(prev.key)<0)
+                prev.left = node;
+            else prev.right = node;
+        }
+        this.size++;
     }
 
     /**
@@ -56,7 +74,14 @@ public class BinarySearchTree<K extends Comparable<K>,D> extends BinaryTree<K,D>
      * @return the data mapped to <code>key</code> or <code>null</code> if <code>key</code> is not in the tree
      */
     public D search(K key) {
-        return null;
+        if (key==null)
+            return null;
+
+        BTNode node = searchNode(key);
+        if(node==null)
+            return null;
+
+        return node.data;
     }
 
     /**
@@ -74,19 +99,30 @@ public class BinarySearchTree<K extends Comparable<K>,D> extends BinaryTree<K,D>
      * @return the searched node or <code>null</code>
      */ 
     protected BTNode searchNode(K key)  {
+        BTNode curr = this.root;
+        while(curr!=null){
+            if(curr.key==key)
+                return curr;
+            if(key.compareTo(curr.key)<0)
+                curr = curr.left;
+            else curr = curr.right;
+        }
         return null;
     }
 
     /**
-     * Deletes the first node matching <code>key</code>; Cost: O(h)
+
      * <p>
      * Same costs as {@link #deleteNode(K) deleteNode}
      * @param key key value to search
      * @return the data mapped to <code>key</code> or <code>null</code> if <code>key</code> is not in the tree
      */
     public D delete(K key) {
-        return null;
-    } 
+        BTNode node = deleteNode(key);
+        if(node==null)
+            return null;
+        return node.data;
+    }
 
     /**
      * Disconnects (and returns) from the Binary Search Tree the first node with key value <code>key</code>; Cost: O(h)
@@ -105,7 +141,17 @@ public class BinarySearchTree<K extends Comparable<K>,D> extends BinaryTree<K,D>
      * @return a node with key value <code>key</code> or null 
      */
     protected BTNode deleteNode(K key) {
-       return null;
+        BTNode node = searchNode(key);
+        if(node!=null){
+            if (node.hasTwoChildren()){
+                BTNode u = node.predecessor();
+                node.swap(u);
+                node = u;
+            }
+            node.disconnect();
+            this.size--;
+        }
+        return node;
     }
 
     /**
@@ -113,7 +159,7 @@ public class BinarySearchTree<K extends Comparable<K>,D> extends BinaryTree<K,D>
      *  @return number of nodes in the Binary Search Tree
      */
     public int size() {
-        return 0;
+        return this.size;
     }
 
     /**
@@ -121,7 +167,7 @@ public class BinarySearchTree<K extends Comparable<K>,D> extends BinaryTree<K,D>
      * @return <code>true</code> if the Binary Search Tree is empty
      */
     public boolean isEmpty() {
-        return true;
+        return this.size==0;
     }
 
 }
