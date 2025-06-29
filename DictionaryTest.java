@@ -38,8 +38,8 @@ public class DictionaryTest {
     public static void main(String args[]) {
         List<String> lines = null;
 
-        if(args.length != 1) {
-            System.err.println("Usage: DictionaryTest <filename>\n");
+        if(args.length != 2) {
+            System.err.println("Usage: DictionaryTest <filename> <dict>\n");
             System.exit(0);
         }
 
@@ -51,13 +51,18 @@ public class DictionaryTest {
             System.exit(0);
         }
 
-        Dictionary<Integer,String> D = new HashTable<>();
-        //Dictionary<Integer,String> D = new AVLDictionary<>();
-        
+        if(args[1].equals("hash"))
+            testDictionary(lines, new HashTable<>());
+        else if(args[1].equals("avl"))
+            testDictionary(lines, new AVLDictionary<>());
+        else
+            System.out.println("Usage <dict>:\n- hash\n- avl");
 
-        for(String l: lines) {
+    }
+    private static void testDictionary(List<String> lines, Dictionary<Integer,String> D){
+                for(String l: lines) {
             String[] cmd = l.split(" ");
-            Integer key  = Integer.parseInt(cmd[1]); 
+            Integer key  = Integer.parseInt(cmd[1]);
             String  data;
 
             switch(cmd[0]) {
@@ -66,7 +71,7 @@ public class DictionaryTest {
                     D.insert(key,data);
                     System.out.println("\nInserting (" + key + "," + (data == null ? "null" : data) + ")\n");
                     break;
-                case "SEARCH": 
+                case "SEARCH":
                     data = D.search(key);
                     System.out.println("\nSearching " + key + " -> " + (data == null ? "null" : data) + "\n");
                     break;
@@ -78,6 +83,5 @@ public class DictionaryTest {
             System.out.println("Number of elements: " + D.size() + "\n");
             System.out.print(D);
         }
-    
     }
 }

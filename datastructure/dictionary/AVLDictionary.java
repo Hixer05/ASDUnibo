@@ -25,9 +25,11 @@ public class AVLDictionary<K extends Comparable<K>,D> extends AVLTree<K,D> imple
  	 */
 	@Override
 	public void insert(K key, D data) throws IllegalStateException {
-		if(key == null)
+		AVLNode node = new AVLNode(key,data);
+		if (node == null)
 			throw new IllegalStateException();
-
+		else
+			super.insert(key,data);
 	}
 
 	/** Returns the data mapped to <code>key</code> or <code>null</code> if <code>key</code> is not in the Dictionary; Cost: O(logn)
