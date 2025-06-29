@@ -1,0 +1,35 @@
+plugins {
+    id 'java-library'
+}
+
+group = ''    // Change this to your package group
+version = '1.0.0'        // Set your version
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Add your dependencies here (if needed)
+    // implementation 'org.example:some-dependency:1.2.3'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+sourceSets {
+    main{
+        java {
+            srcDirs = ['.', 'algorithm', 'datastructure']
+        }
+    }
+}
+
+task runTests(type: Exec) {
+    description = 'Runs the custom test script'
+    group = 'verification'
+    commandLine 'bash', './runTests.sh'
+    dependsOn build
+}
