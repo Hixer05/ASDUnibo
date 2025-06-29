@@ -2,11 +2,7 @@
 
 # Sorting algorithms
 # echo "- Sorting algorithms:"
-# javac ./algorithm/sorting/Sorting.java
-# javac ./SortingTest.java
-# javac ./GenericSortingTest.java
-
-# echo "-- Compiled."
+#
 # echo "-- Run int[] random test:"
 # # java SortingTest data/list.random.txt selectionsort
 # # java SortingTest data/list.random.txt insertionsort
@@ -25,12 +21,7 @@
 
 # Basic Datastructures
 echo "- Basic datastructures:"
-javac datastructure/list/DoubleEndedList.java
-javac ListTest.java
-javac QueueTest.java
-javac StackTest.java
 
-echo "-- Compiled."
 java ListTest data/ListOperations.txt > my.ListOperations.log.txt
 diff -s my.ListOperations.log.txt data/ListOperations.log.txt
 
