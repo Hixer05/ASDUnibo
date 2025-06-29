@@ -33,5 +33,8 @@ diff -s my.QueueOperations.log.txt data/QueueOperations.log.txt
 java -cp $class_path StackTest data/StackOperations.txt > my.StackOperations.log.txt
 diff -s my.StackOperations.log.txt data/StackOperations.log.txt
 
-java -cp $class_path TreeTest data/TreeOperations.txt > my.TreeOperations.BST.log.txt
+java -cp $class_path TreeTest data/TreeOperations.txt > my.TreeOperations.BST.log.txt bst
 diff -s data/TreeOperations.BST.log.txt  my.TreeOperations.BST.log.txt
+
+java -cp $class_path TreeTest data/TreeOperations.txt > my.TreeOperations.AVL.log.txt avl
+diff -s data/TreeOperations.AVL.log.txt  my.TreeOperations.AVL.log.txt

@@ -38,8 +38,8 @@ public class TreeTest {
     public static void main(String args[]) {
         List<String> lines = null;
 
-        if(args.length != 1) {
-            System.err.println("Usage: TreeTest <filename>\n");
+        if(args.length != 2) {
+            System.err.println("Usage: TreeTest <filename> <tree>\n");
             System.exit(0);
         }
 
@@ -51,12 +51,18 @@ public class TreeTest {
             System.exit(0);
         }
 
-        BinarySearchTree<Integer,String> T = new BinarySearchTree<>();
-        //AVLTree<Integer,String> T = new AVLTree<>();  
+        if(args[1].equals("bst"))
+            testTree(lines, new BinarySearchTree<>());
+        else if(args[1].equals("avl"))
+            testTree(lines, new AVLTree<>());
+        else
+            System.out.println("Usage <tree>:\n- bst\n- avl");
+    }
 
+    private static void testTree(List<String> lines, BinarySearchTree<Integer,String> T){
         for(String l: lines) {
             String[] cmd = l.split(" ");
-            Integer key  = Integer.parseInt(cmd[1]); 
+            Integer key  = Integer.parseInt(cmd[1]);
             String  data;
 
             switch(cmd[0]) {
@@ -65,7 +71,7 @@ public class TreeTest {
                     T.insert(key,data);
                     System.out.println("Inserting (" + key + "," + (data == null ? "null" : data) + ")\n");
                     break;
-                case "SEARCH": 
+                case "SEARCH":
                     data = T.search(key);
                     System.out.println("Searching " + key + " -> " + (data == null ? "null" : data) + "\n");
                     break;
@@ -86,6 +92,5 @@ public class TreeTest {
             printkeys(T.getBFSKeys());
             System.out.println("****************\n");
         }
-    
     }
 }

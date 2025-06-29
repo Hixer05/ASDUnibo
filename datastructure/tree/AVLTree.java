@@ -41,6 +41,19 @@ public class AVLTree<K extends Comparable<K>,D> extends BinarySearchTree<K,D> im
      */
     @Override
     public void insert(K key, D data) throws IllegalStateException {
+        if(key!=null){
+            AVLNode v = new AVLNode(key,data);
+            insertNode(v);
+            AVLNode p = (AVLNode) v.parent;
+
+            while (p!=null && Math.abs(p.balanceFactor())!=2){
+               p.updateHeight();
+               p = (AVLNode) p.parent;
+            }
+
+            if (p!=null)
+                p.balance();
+        }
     }
 
     /**
@@ -52,6 +65,19 @@ public class AVLTree<K extends Comparable<K>,D> extends BinarySearchTree<K,D> im
      */
     @Override
     public D delete(K key) {
+        if (key!=null){
+            AVLNode v = (AVLNode) deleteNode(key);
+            if (v!=null){
+               AVLNode p = (AVLNode) v.parent;
+               while(p!=null){
+                   if (Math.abs(p.balanceFactor()) == 2)
+                       p.balance();
+                   else p.updateHeight();
+                   p = (AVLNode) p.parent;
+               }
+               return v.data;
+            }
+        }
         return null;
     }
 
