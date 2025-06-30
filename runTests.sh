@@ -49,5 +49,7 @@ echo ""
 echo ">>- Priority Queues"
 java -cp $class_path PriorityQueueTest data/words.txt my.orderedWords.txt > /dev/null
 
-# echo ">>- Union-find"
-# echo ""
+echo ">>- Union-find"
+echo ""
+
+java -cp $class_path UnionFindTest data/roadNet-TX.txt #> my.roadNet-TX.txt

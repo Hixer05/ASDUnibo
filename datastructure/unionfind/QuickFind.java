@@ -34,9 +34,9 @@ public class QuickFind<D> implements UnionFind<D> {
 	 * @return the inserted node
 	 */
 	public UnionFindNode<D> makeSet(D data) {
-
-
-		return null;
+		QuickUnionNode<D> node = new QuickUnionNode<D>(data);
+		nodes.add(node);
+		return node;
 	}
 	
 	/**
@@ -54,8 +54,16 @@ public class QuickFind<D> implements UnionFind<D> {
      * @param node2 the representative of the second set 
 	 */	
 	public void union(UnionFindNode<D> node1, UnionFindNode<D> node2) {
-
-
+		QuickFindNode<D> n1 = (QuickFindNode<D>) node1;
+		QuickFindNode<D> n2 = (QuickFindNode<D>) node2;
+		if (n1.isRepresentative() && n2.isRepresentative() && n1.root != n2.root){
+			n1.root.tail.next = n2;
+			n1.root.tail = n2.root.tail;
+			while(n2!=null){
+				n2.root = n1.root;
+				n2 = n2.next;
+			}
+		}
 	}
 	
 	/**
@@ -64,9 +72,7 @@ public class QuickFind<D> implements UnionFind<D> {
      * @return the representative of the set to which the node belongs to
 	 */
 	public UnionFindNode<D> find(UnionFindNode<D> node) {
-		
-		
-		return null;
+		return ((QuickFindNode<D>) node).root.head;
 	}
 	
 	/**
