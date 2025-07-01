@@ -85,7 +85,7 @@ public class GraphAL<D> implements Graph<D> {
 	 */	
 	public ArrayList<Edge<D>> outEdges(Vertex<D> v) {
 		ArrayList<Edge<D>> L = new ArrayList<Edge<D>>();
-	    L.addAll(((VertexAL<D>)v).adjac);
+	    L.addAll(((VertexAL<D>) v).adjac);
 		return L;
 	}
 	
@@ -103,8 +103,12 @@ public class GraphAL<D> implements Graph<D> {
 	 * <code>x</code> and <code>y</code> are not connected)
 	 */	
 	public Edge<D> areAdjacent(Vertex<D> x, Vertex<D> y) {
-		//i =
-
+		Iterator i = ((VertexAL<D>) x).adjac.iterator();
+		while (i.hasNext()){
+			EdgeAL<D> e = (EdgeAL<D>) i.next();
+			if(e.dest == y)
+				return e;
+		}
 		return null;
 	}
 
@@ -114,9 +118,10 @@ public class GraphAL<D> implements Graph<D> {
 	 * @return the new vertex
 	 */	
 	public Vertex<D> addVertex(D data) {
-
-
-		return null;
+		VertexAL<D> v = new VertexAL<D>(data);
+		vertexes.add(v);
+		n++;
+		return v;
 	}
 
 	/**
@@ -125,8 +130,9 @@ public class GraphAL<D> implements Graph<D> {
      * @param dest the destination of the edge to add	
 	 */	
 	public void addEdge(Vertex<D> source, Vertex<D> dest) {
-
-
+		EdgeAL<D> v = new EdgeAL<D>((VertexAL<D>) source,(VertexAL<D>) dest);
+		((VertexAL<D>) source).adjac.add(v);
+		m++;
 	}
 
 	/**
@@ -136,8 +142,9 @@ public class GraphAL<D> implements Graph<D> {
      * @param weight the weight of the edge to add	
 	 */		
 	public void addEdge(Vertex<D> source, Vertex<D> dest, double weight) {
-
-
+		EdgeAL<D> v = new EdgeAL<D>((VertexAL<D>) source,(VertexAL<D>) dest, weight);
+		((VertexAL<D>) source).adjac.add(v);
+		m++;
 	}
 	
 	/**
@@ -182,8 +189,8 @@ public class GraphAL<D> implements Graph<D> {
      * @param e the edge to remove
 	 */	
 	public void removeEdge(Edge<D> e) {
-
-
+		if(((VertexAL<D>) (e.getSource())).adjac.remove(e))
+			m--;
 	}
 	
 	/**
