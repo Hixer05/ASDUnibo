@@ -46,8 +46,17 @@ public class QuickFindSize<D> extends QuickFind<D> {
 	 */	
 	@Override	
 	public void union(UnionFindNode<D> node1, UnionFindNode<D> node2) {
-
-
+		QuickFindSizeNode<D> n1 = (QuickFindSizeNode<D>) node1;
+		QuickFindSizeNode<D> n2 = (QuickFindSizeNode<D>) node2;
+		if (n1.isRepresentative() && n2.isRepresentative() && n1.root != n2.root){
+			if(n1.size>=n2.size){
+				super.union(n1,n2);
+				n1.size += n2.size;
+			}else{
+				super.union(n2,n1);
+				n2.size += n1.size;
+			}
+		}
 	}
 
 }

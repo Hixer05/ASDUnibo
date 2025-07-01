@@ -34,7 +34,7 @@ public class QuickFind<D> implements UnionFind<D> {
 	 * @return the inserted node
 	 */
 	public UnionFindNode<D> makeSet(D data) {
-		QuickUnionNode<D> node = new QuickUnionNode<D>(data);
+		QuickFindNode<D> node = new QuickFindNode<D>(data);
 		nodes.add(node);
 		return node;
 	}

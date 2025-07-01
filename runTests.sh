@@ -51,9 +51,10 @@ echo ">>- Run int[] random test:"
 
 echo ">- Union-find"
 
-echo ">>- QuickUnion"
-java -cp $class_path UnionFindTest data/roadNet-TX.txt QuickUnion
-
 echo ""
 echo ">>- QuickUnionRank"
 java -cp $class_path UnionFindTest data/roadNet-TX.txt QuickUnionRank
+
+echo ""
+echo ">>- QuickFindSize"
+java -cp $class_path UnionFindTest data/roadNet-TX.txt QuickFindSize
