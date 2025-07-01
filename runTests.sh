@@ -52,4 +52,4 @@ java -cp $class_path PriorityQueueTest data/words.txt my.orderedWords.txt > /dev
 echo ">>- Union-find"
 echo ""
 
-# java -cp $class_path UnionFindTest data/roadNet-TX.txt #> my.roadNet-TX.txt
+java -cp $class_path UnionFindTest data/roadNet-TX.txt QuickUnion #> my.roadNet-TX.txt

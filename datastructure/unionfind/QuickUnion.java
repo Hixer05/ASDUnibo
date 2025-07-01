@@ -32,7 +32,7 @@ public class QuickUnion<D> implements UnionFind<D> {
 	 * @return the inserted node
 	 */
 	public UnionFindNode<D> makeSet(D data) {
-		QuickUnionNode<D> n = new QuickUnionNode<>(data);
+		QuickUnionNode<D> n = new QuickUnionNode<D>(data);
 		nodes.add(n);
 		return n;
 	}

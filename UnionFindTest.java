@@ -69,9 +69,28 @@ public class UnionFindTest {
 			// in base alle strade presenti
 						
 			ArrayList<UnionFindNode<Integer>> elems = new ArrayList<UnionFindNode<Integer>>();
-			UnionFind<Integer> uf = new QuickFindSize<Integer>();
+
+			UnionFind<Integer> uf;
+			switch(args[1]){
+				case "QuickUnion":
+					uf = new QuickUnion<Integer>();
+					break;
+				case "QuickFind":
+					uf = new QuickFind<Integer>();
+					break;
+				case "QuickFindSize":
+					uf = new QuickFindSize<Integer>();
+					break;
+				case "QuickUnionRank":
+					uf = new QuickUnionRank<Integer>();
+					break;
+				default:
+					uf = null;
+					System.exit(0);
+			}
+
 			for (int i=0; i <= max; i++) elems.add(uf.makeSet(i));
-			
+
 			start_t = System.currentTimeMillis();
 
 			for (int i = 0; i < src.size(); i++) {
@@ -84,7 +103,7 @@ public class UnionFindTest {
 			sec = (elapsed - min*60*1000)/1000.0;
 			System.out.println("Elaborazione collegamenti: "+min+" min "+sec+" sec");
 
-			System.out.println(uf);
+			//System.out.println(uf);
 
 			// Richiede coppie di incroci e risponde dicendo se tali incroci sono collegati
 			// (direttamente o indirettamente)
@@ -92,30 +111,45 @@ public class UnionFindTest {
 			Scanner scanner = new Scanner(System.in);
 			int u1,u2;
 			boolean connected;
-			do {
-				System.out.println("Inserisci due punti (-1 per terminare):");
-				u1 = scanner.nextInt();
-				if (u1 == -1) break;
-				u2 = scanner.nextInt();
-				start_t = System.currentTimeMillis();
-				connected = (uf.find(elems.get(u1)) == uf.find(elems.get(u2)));
-				end_t = System.currentTimeMillis();
-				elapsed = (end_t - start_t);
-				min = elapsed / (60*1000);
-				sec = (elapsed - min*60*1000)/1000.0;
-				System.out.println("Controllo connessione: "+min+" min "+sec+" sec");
-				if (connected)
-					System.out.println("collegati");
-				else
-					System.out.println("scollegati");
-			} while (u1 != -1);
-				
+			// do {
+			// 	System.out.println("Inserisci due punti (-1 per terminare):");
+			// 	u1 = scanner.nextInt();
+			// 	if (u1 == -1) break;
+			// 	u2 = scanner.nextInt();
+			// 	start_t = System.currentTimeMillis();
+			// 	connected = (uf.find(elems.get(u1)) == uf.find(elems.get(u2)));
+			// 	end_t = System.currentTimeMillis();
+			// 	elapsed = (end_t - start_t);
+			// 	min = elapsed / (60*1000);
+			// 	sec = (elapsed - min*60*1000)/1000.0;
+			// 	System.out.println("Controllo connessione: "+min+" min "+sec+" sec");
+			// 	if (connected)
+			// 		System.out.println("collegati");
+			// 	else
+			// 		System.out.println("scollegati");
+			// } while (u1 != -1);
+
+			testConnection(1393132,1393133, uf,elems);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
 	}
-	
+
+	private static void testConnection(Integer a, Integer b, UnionFind<Integer> uf, ArrayList<UnionFindNode<Integer>> elems, boolean expect){
+		long start_t, end_t, elapsed, min;
+		System.out.print("Check "+a+", "+b+": ");
+		start_t = System.currentTimeMillis();
+		boolean connected = (uf.find(elems.get(a)) == uf.find(elems.get(b)));
+		end_t = System.currentTimeMillis();
+		elapsed = (end_t - start_t);
+		min = elapsed / (60*1000);
+		double sec = (elapsed - min*60*1000)/1000.0;
+		System.out.println(connected?"[collegati]":"[scollegati]");
+		System.out.println("Controllo connessione: "+min+" min "+sec+" sec");
+		if (connected!=expect)
+			throw new Error("Failed Test");
+	}
 }
  
  
