@@ -91,10 +91,12 @@ public class UnionFindTest {
 
 			for (int i=0; i <= max; i++) elems.add(uf.makeSet(i));
 
+			System.out.println("Sets made.");
+
 			start_t = System.currentTimeMillis();
 
 			for (int i = 0; i < src.size(); i++) {
-				uf.union(uf.find(elems.get(src.get(i))),uf.find(elems.get(dst.get(i))));	 
+				uf.union(uf.find(elems.get(src.get(i))),uf.find(elems.get(dst.get(i))));
 			}
 			
 			end_t = System.currentTimeMillis();
