@@ -43,8 +43,15 @@ public class QuickUnionRank<D> extends QuickUnion<D> {
 	 */		
 	@Override
 	public void union(UnionFindNode<D> node1, UnionFindNode<D> node2) {
-
-
+		QuickUnionRankNode<D> n1 = (QuickUnionRankNode<D>) node1;
+		QuickUnionRankNode<D> n2 = (QuickUnionRankNode<D>) node2;
+		if(n1.parent != n2.parent && n1.isRepresentative() && n2.isRepresentative()){
+			if(n1.rank>=n2.rank){
+				super.union(n1,n2); // n2 figlo di n1
+				if(n1.rank == n2.rank) // rank:= cammino _piu_ lungo
+					n1.rank++;
+			}else
+				super.union(n2,n1);
+		}
 	}
-
 }
