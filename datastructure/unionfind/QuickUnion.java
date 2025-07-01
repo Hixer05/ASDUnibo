@@ -48,8 +48,9 @@ public class QuickUnion<D> implements UnionFind<D> {
 	public void union(UnionFindNode<D> node1, UnionFindNode<D> node2) {
 		QuickUnionNode<D> qn1 = (QuickUnionNode<D>) node1;
 		QuickUnionNode<D> qn2 = (QuickUnionNode<D>) node2;
-		if(qn1.parent != qn2.parent && qn1.isRepresentative() && qn2.isRepresentative())
+		if(qn1.parent != qn2.parent && qn1.isRepresentative() && qn2.isRepresentative()){
 			qn2.parent = qn1;
+		}
 	}
 	
 	/**
@@ -65,10 +66,10 @@ public class QuickUnion<D> implements UnionFind<D> {
 	 */
 	public UnionFindNode<D> find(UnionFindNode<D> node) {
 		QuickUnionNode<D> n = (QuickUnionNode<D>) node;
-		while(n.isRepresentative()){
+		while(!n.isRepresentative()){
 			n = n.parent;
 		}
-		return node;
+		return n;
 	}
 	
 	/**
