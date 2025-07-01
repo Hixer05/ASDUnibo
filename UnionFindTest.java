@@ -129,7 +129,8 @@ public class UnionFindTest {
 			// 		System.out.println("scollegati");
 			// } while (u1 != -1);
 
-			testConnection(1393132,1393133, uf,elems);
+			testConnection(1393132, 1393133, uf,elems, true);
+			testConnection(1393132, 432567, uf,elems, false);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
