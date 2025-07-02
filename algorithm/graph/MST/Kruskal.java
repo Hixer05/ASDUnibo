@@ -21,9 +21,37 @@ public class Kruskal<D> implements MST<D> {
 	 * @return the graph representing the computed Minimum Spanning Tree
 	 */	
 	public Graph<D> MinimumSpanningTree(Graph<D> graph) {
+        GraphAL<D> g = new GraphAL<>();
+        HashMap<Vertex<D>, Vertex<D>> newVert = new HashMap<Vertex<D>, Vertex<D>>();
+        QuickUnionRank<D> uf = new QuickUnionRank<D>();
+        HashMap<Vertex<D>, UnionFindNode<D>> ufnodes = new HashMap<Vertex<D>, UnionFindNode<D>>();
+
+        for (Vertex<D> v : graph.vertexes()) {
+            newVert.put(v, g.addVertex(v.getData()));
+            ufnodes.put(v, uf.makeSet(v.getData()));
+        }
 
 
-		return null;
+        ArrayList<Edge<D>> e = graph.edges();
+        e.sort(new CompEdge());
+// a b c d e f g h i
+// 0 1 2 3 4 5 6 7 8 9
+        for (Edge<D> edge : e) {
+            Vertex<D> u = edge.getSource();
+            Vertex<D> v = edge.getDest();
+            double w = edge.getWeight();
+
+            UnionFindNode<D> ru = uf.find(ufnodes.get(u));
+            UnionFindNode<D> rv = uf.find(ufnodes.get(v));
+
+            if (ru != rv) {
+                uf.union(ru, rv);
+                g.addEdge(newVert.get(u), newVert.get(v), w);
+                g.addEdge(newVert.get(v), newVert.get(u), w);
+            }
+        }
+
+        return g;
 	}
 	
 	/**

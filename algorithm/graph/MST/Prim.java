@@ -20,10 +20,50 @@ public class Prim<D> implements MST<D> {
 	 * @return the graph representing the computed Minimum Spanning Tree
 	 */	
 	public Graph<D> MinimumSpanningTree(Graph<D> graph) {
-		
+		// Auxiliary data structures
+        Graph<D> g = new GraphAL<>();
+        Map<Vertex<D>, Vertex<D>> newVert = new HashMap<>();
+        DHeap<Double, Vertex<D>> pq = new DHeap<>();
+        Map<Vertex<D>, PriorityQueueNode<Double, Vertex<D>>> pqnodes = new HashMap<>();
+        Map<Vertex<D>, Boolean> bool = new HashMap<>();
+        Map<Vertex<D>, Double> distance = new HashMap<>();
+        Map<Vertex<D>, Vertex<D>> parent = new HashMap<>();
 
-		return null;		
-	}
+        ArrayList<Vertex<D>> vert = graph.vertexes();
 
+        for (Vertex<D> v : vert) {
+            newVert.put(v, g.addVertex(v.getData()));
+            bool.put(v, false);
+            distance.put(v, Double.POSITIVE_INFINITY);
+        }
+
+        Vertex<D> s = vert.get(0);
+        pqnodes.put(s, pq.insert(0.0, s));
+
+        while (!pq.isEmpty()) {
+            Vertex<D> u = pq.findMin();
+            pq.deleteMin();
+            bool.put(u, true);
+
+            if (!u.equals(s)) {
+                g.addEdge(newVert.get(parent.get(u)), newVert.get(u), distance.get(u));
+                g.addEdge(newVert.get(u), newVert.get(parent.get(u)), distance.get(u));
+            }
+
+            for (Edge<D> e : graph.outEdges(u)) {
+                Vertex<D> v = e.getDest();
+                if (distance.get(v) == Double.POSITIVE_INFINITY) {
+
+                    distance.put(v, e.getWeight());
+                    parent.put(v, u);
+                    pqnodes.put(v, pq.insert(e.getWeight(), v));
+                } else if (distance.get(v) > e.getWeight() && !bool.get(v)) {
+                    distance.put(v, e.getWeight());
+                    parent.put(v, u);
+                    pq.decreaseKey(e.getWeight(), pqnodes.get(v));
+                }
+            }
+        }
+        return g;
+    }
 }
-
