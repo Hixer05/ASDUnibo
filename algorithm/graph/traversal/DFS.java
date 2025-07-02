@@ -30,17 +30,39 @@ public class DFS<D> implements Traversal<D> {
 	 * @return the ArrayList with the visited vertexes
 	 */	
 	public ArrayList<VisitedVertex<D>> visit(Graph<D> graph, Vertex<D> source) {
+		time = 0;
+		l = new ArrayList<VisitedVertex<D>>();
+		visited = new HashMap<Vertex<D>,Boolean>();
 
+		ArrayList<Vertex<D>> vert = graph.vertexes();
 
-		return null;
+		for (Vertex<D> v : vert)
+			visited.put(v,false);
+
+		for (Vertex<D> u : vert)
+			if (!visited.get(u))
+				DFSvisit(graph, new VisitedVertexDFS<D>(u,null));
+
+		return l;
 	}
 
 	/**
 	 * Auxiliary function used in the recursive implementation of the DFS visit
 	 */
 	private void DFSvisit(Graph<D> g, VisitedVertexDFS<D> v) {
+		visited.put(v.getVertex(), true);
+		l.add(v);
+		time++;
+		v.dt = time;
 
+		for(Edge<D> e : g.outEdges(v.getVertex())){
+			Vertex<D> w = e.getDest();
+			if(!visited.get(w))
+				DFSvisit(g, new VisitedVertexDFS<D>(w,v.getVertex()));
+		}
 
+		time++;
+		v.ft = time;
 	}
 
 
