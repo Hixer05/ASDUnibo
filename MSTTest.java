@@ -79,16 +79,16 @@ public class MSTTest {
 			}
 			
 			// Calcola il Minimum Spanning Tree
-			MST<Integer> mst = new Kruskal<Integer>();
+			MST<Integer> mst = new Prim<Integer>();
 		    Graph<Integer> t = mst.MinimumSpanningTree(g);
 
 			// Stampa il Minimum Spanning Tree ed il relativo costo
 			ArrayList<Vertex<Integer>> vert = t.vertexes();
 			for (int i=0; i<t.vertexNum(); i++) {
-				System.out.println("Adiacenti a: "+(vert.get(i)).getData());
+				System.out.println("Adiacenti a: "+ (char) (65+ (vert.get(i)).getData()));
 				ArrayList<Edge<Integer>> archi = t.outEdges(vert.get(i));
 				for (int j=0; j<g.outDegree(vert.get(i)); j++) {
-					System.out.print( "  "+ (archi.get(j)).getDest().getData()+" "+
+					System.out.print( "  "+ (char) (65+(archi.get(j)).getDest().getData())+" "+
 						(archi.get(j)).getWeight() );
 				}
 				System.out.println();
